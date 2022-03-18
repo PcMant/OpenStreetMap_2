@@ -65,7 +65,7 @@ echo "
         <select name='ruta' id='ruta'>
 ";
 foreach ($resultados as $r){
-    echo "<option value='{$r['cod']}'>{$r['nombre']}></option>";
+    echo "<option value='{$r['cod']}'>{$r['nombre']}</option>";
 }
 echo "
         </select>
