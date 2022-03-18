@@ -36,7 +36,7 @@ echo "
 echo "<h1>{$_GET['ruta']}</h1>";
 
 //recorrer el fichero csv
-$cc = 0; $cm = 0;
+$cc = 0; $cm = 0; $data= array();
 while(!feof($archivo)){
     $contenido = fgets($archivo);
     $contenido = explode("\t", $contenido);
@@ -56,11 +56,14 @@ while(!feof($archivo)){
 
         $cor = explode(",", $contenido[2]);
 
+        $altura = !empty($cor[4]) ? ','.$cor[4] : '';
+
         // MArcas y circulos
-        if(preg_match('/R/', $contenido[1]) == 1){
+        if(preg_match('/^R$/', $contenido[1]) == 1){
             $map->addMarker($cor[0], $cor[1]);
             if($contenido[3] != '') $map->addPopUp(LeafletMaphp::MARKER, $cm, $contenido[3]);
             if($contenido[2] != '') $map->addTooltip(LeafletMaphp::MARKER, $cm, $contenido[2]);
+
 
             $textoR = "
             <h4>{$contenido[3]}</h4>
@@ -73,8 +76,9 @@ while(!feof($archivo)){
         }else{
             $map->addCircle($cor[0], $cor[1], $color);
             if($contenido[3] != '') $map->addPopUp(LeafletMaphp::CIRCLE, $cc, $contenido[3]);
-            if($contenido[2] != '') $map->addTooltip(LeafletMaphp::CIRCLE, $cc, $contenido[2]);
+            if($contenido[2] != '') $map->addTooltip(LeafletMaphp::CIRCLE, $cc, "{$contenido[2]}{$altura}");
 
+            array_push($data,$cor[0]); array_push($data,$cor[1]);
 
             $cc++;
         }
@@ -82,6 +86,11 @@ while(!feof($archivo)){
     }
 }
 
+// Añadiendo las linedas que marcan la ruta
+var_dump($data);
+foreach($data as $key => $d){
+    
+}
 
 // Mostrando mapa
 echo $map->showOnClickDiv();

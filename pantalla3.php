@@ -18,12 +18,11 @@ $reverse = $nominatim->newReverse()
 $result = $nominatim->find($reverse);
 
 // Valores sacados de la consulta de Nomatim referenciados a Variables
-$nombre = !empty($result['display_name']) ? $result['display_name'] : '';
-$calle = !empty($result['address']['road']) ? $result['address']['road'] : '';
-$numero = !empty($result['address']['house_number']) ? $result['address']['house_number'] : '';
+$nombre = !empty($result['address']['amenity']) ? $result['address']['amenity'] : '';
+$localidad = !empty($result['address']['village']) ? $result['address']['village'] : '';
 $cp = !empty($result['address']['postcode']) ? $result['address']['postcode'] : '';
 
-var_dump($result);
+// var_dump($result);
 
 // Creando objeto de la clase Leaflet
 $map = new LeafletMaphp();
@@ -37,7 +36,7 @@ echo "
 echo $map->showHeadTags();
 echo "<link rel='stylesheet' href='styless.css' />";
 echo "
-    <title>TITULO</title>\n
+    <title>{$nombre}</title>\n
 </head>\n
 <body>
 ";
@@ -45,7 +44,18 @@ echo "
 // Añadir marcador en el mapa
 $map->addMarker((float) $_GET['lat'],(float) $_GET['lon']);
 $map->addTooltip(LeafletMaphp::MARKER, 0, "{$_GET['lat']},{$_GET['lon']}");
-$map->addOnClickText(LeafletMaphp::MARKER, 0, '');
+
+$texto = "
+    <ul>
+        <li><strong>Nombre: </strong> {$nombre}</li>
+        <li><strong>Localidad: </strong>{$localidad}</li>
+        <li><strong>Código Postal: </strong>{$cp}</li>
+    </ul>
+";
+
+$map->addOnClickText(LeafletMaphp::MARKER, 0, $texto);
+
+echo "<h1>{$nombre}</h1>";
 
 echo $map->show();
 echo $map->showOnClickDiv();

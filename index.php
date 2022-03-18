@@ -75,7 +75,7 @@ if(!empty($_GET['zona'])){
     while(!feof($archivo)){
         $contenido = fgets($archivo);
         $contenido = explode("\t", $contenido);
-        /*if(!empty($contenido[3]))*/ echo "<option value='{$contenido[0]}'>{$contenido[4]}</option>";
+        if(count($contenido) > 1) echo "<option value='{$contenido[0]}'>{$contenido[4]}</option>";
     }
     
 
