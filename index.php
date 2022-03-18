@@ -1,30 +1,12 @@
 <?php 
-// variables base de datos
-$host_db = 'localhost';
-$port_db = 3306;
-$database = 'turismo';
-$user_db = 'root';
-$pass_db = '';
+//lectura de los ficheros csv
 
-// Consulta en la base de datos
-try {
-    // Obteniendo rutas
-    $pdo = new PDO("mysql:host={$host_db};port={$port_db};dbname={$database};charset=utf8", $user_db, $pass_db);
-    
+//lectura de ficheros CSV
+$archivo = fopen('csv/turismo_guada_rutas.csv', "r");
 
-    //Consulta
-    $sql = 'SELECT * FROM `rutas`';
-    $sentencia = $pdo->prepare($sql);
-    
-    $sentencia->execute();
-    $resultados = $sentencia->fetchAll();
-
-    
-} catch (PDOException $e) {
-    print "¡Error!: " . $e->getMessage() . "<br/>";
-    die();
-}
-
+// while(!feof($archivo)){
+//     $contenido = fgets($archivo);
+// }
 
 // Dependencias
 
@@ -51,34 +33,60 @@ echo "
 /*Mostrar esto dentro de la cabecera*/
 // echo $map->showHeadTags();
 echo "
-    <title>TITULO</title>\n
+    <title>Inicio</title>\n
 </head>\n
 <body>
 ";
 
-// Formulario inicial
-echo "
-    <form method='get' action='pantalla2.php'>
+// Buscar rutas por zona
+if(empty($_GET['zona'])){
+    echo "
+        <form method='zonas' action='index.php'>
 
-    <p>
-        <label for='ruta'>Ruta: </label>
-        <select name='ruta' id='ruta'>
-";
-foreach ($resultados as $r){
-    echo "<option value='{$r['cod']}'>{$r['nombre']}</option>";
+        <p>
+            <label for='ruta'>zona: </label>
+            <select name='zona' id='zona'>
+    ";
+    
+        echo "<option value='A'>Alcarria</option>";
+        echo "<option value='C'>Campiña</option>";
+        echo "<option value='T'>Molina / Alto Tajo</option>";
+        echo "<option value='S'>Sierra Norte</option>";
+    
+    echo "
+            </select>
+        </p>
+
+        <button type='submit'>Enviar</button>
+        </form>
+    ";
 }
-echo "
-        </select>
-    </p>
 
-    <p>
-        <input type='checkbox' id='restaurantes' name='restaurantes' value='ok' />
-        <label for='restaurantes'>Quiero restaurantes para comer</label>
-    </p>
+// Selección de ruta
+if(!empty($_GET['zona'])){
+    echo "
+        <form method='zonas' action='p2.php'>
 
-    <button type='submit'>Enviar</button>
-    </form>
-";
+        <p>
+            <label for='ruta'>ruta: </label>
+            <select name='ruta' id='ruta'>
+    ";
+    
+    while(!feof($archivo)){
+        $contenido = fgets($archivo);
+        $contenido = explode("\t", $contenido);
+        /*if(!empty($contenido[3]))*/ echo "<option value='{$contenido[0]}'>{$contenido[4]}</option>";
+    }
+    
+
+    echo "
+            </select>
+        </p>
+
+        <button type='submit'>Enviar</button>
+        </form>
+    ";
+}
 
 echo '</body></html>';
 

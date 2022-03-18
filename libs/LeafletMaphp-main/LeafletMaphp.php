@@ -109,12 +109,12 @@ class LeafletMaphp {
         switch($element_type) {
             case self::MARKER:
                 if(!isset($this->markers[$element_id])) throw new LeafletMaphpException('Wrong marker ID');
-                if(isset($this->markers[$element_id]['toolTip'])) throw new LeafletMaphpException("Ya existe texto para el elemento {$element_type} con la id {$element_id}");
+                //if(isset($this->markers[$element_id]['toolTip'])) throw new LeafletMaphpException("Ya existe texto para el elemento {$element_type} con la id {$element_id}");
                 $this->markers[$element_id]['toolTip'] = $toolTip;
                 break;
             case self::CIRCLE:
                 if(!isset($this->circles[$element_id])) throw new LeafletMaphpException('Wrong circle ID');
-                if(isset($this->circles[$element_id]['toolTip'])) throw new LeafletMaphpException("Ya existe texto para el elemento {$element_type} con la id {$element_id}");
+                //if(isset($this->circles[$element_id]['toolTip'])) throw new LeafletMaphpException("Ya existe texto para el elemento {$element_type} con la id {$element_id}");
                 $this->circles[$element_id]['toolTip'] = $toolTip;
                 break;
             case self::POLYGON:
@@ -144,6 +144,24 @@ class LeafletMaphp {
             default:
                 throw new LeafletMaphpException('Wrong element type');
                 break;
+        }
+    }
+
+    /* Función del ejerccicio 1  la de la marca que tiene texto de tres formas distintas*/
+    function marcaConTexto($lat, $lon, $element_id, $tipo, $texto){
+
+        /*Indicando que el tipo de elemento es de Marca*/
+        $element_type = self::MARKER;
+
+        /*creado de marca*/
+        $this->addMarker($lat, $lon);
+        
+        /*añadiendo el texto*/
+        switch($tipo){
+            case 'tooltip': $this->addTooltip($element_type, $element_id, $texto); break;
+            case 'tooltip': $this->addPopUp($element_type, $element_id, $texto); break;
+            case 'tooltip': $this->addOnClickText($element_type, $element_id, $texto); break;
+            default: ;
         }
     }
     
