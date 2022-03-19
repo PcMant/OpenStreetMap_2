@@ -78,18 +78,34 @@ while(!feof($archivo)){
             if($contenido[3] != '') $map->addPopUp(LeafletMaphp::CIRCLE, $cc, $contenido[3]);
             if($contenido[2] != '') $map->addTooltip(LeafletMaphp::CIRCLE, $cc, "{$contenido[2]}{$altura}");
 
-            array_push($data,$cor[0]); array_push($data,$cor[1]);
+            $d = array();
+            array_push($d,(float) $cor[1]);
+            array_push($d,(float) $cor[0]);
+            array_push($data, $d);
 
+            unset($d);
+            
             $cc++;
         }
 
     }
 }
 
+
+
 // Añadiendo las linedas que marcan la ruta
-var_dump($data);
-foreach($data as $key => $d){
-    
+//var_dump($data);
+if(count($data) <= 2){
+    $map->addPolygon($data,'blue');
+}else{
+    for($i = 0; $i<count($data)/2; $i++){
+        $l = array();
+        array_push($l,$data[$i]);
+        array_push($l,$data[$i+1]);
+        $map->addPolygon($l,'blue');
+        //var_dump([$l]);
+        unset($l);
+    }
 }
 
 // Mostrando mapa
