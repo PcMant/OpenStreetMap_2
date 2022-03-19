@@ -96,7 +96,7 @@ while(!feof($archivo)){
 // Añadiendo las linedas que marcan la ruta
 //var_dump($data);
 if(count($data) <= 2){
-    $map->addPolygon($data,'blue');
+    //$map->addPolygon($data,'blue');
 }else{
     for($i = 0; $i<count($data)/2; $i++){
         $l = array();

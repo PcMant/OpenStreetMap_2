@@ -158,9 +158,9 @@ class LeafletMaphp {
         
         /*añadiendo el texto*/
         switch($tipo){
-            case 'tooltip': $this->addTooltip($element_type, $element_id, $texto); break;
-            case 'tooltip': $this->addPopUp($element_type, $element_id, $texto); break;
-            case 'tooltip': $this->addOnClickText($element_type, $element_id, $texto); break;
+            case 0: $this->addTooltip($element_type, $element_id, $texto); break;
+            case 1: $this->addPopUp($element_type, $element_id, $texto); break;
+            case 2: $this->addOnClickText($element_type, $element_id, $texto); break;
             default: ;
         }
     }

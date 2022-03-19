@@ -36,14 +36,15 @@ echo "
 echo $map->showHeadTags();
 echo "<link rel='stylesheet' href='styless.css' />";
 echo "
-    <title>{$nombre}</title>\n
+    <title>{$nombre}, {$localidad}, {$cp}</title>\n
 </head>\n
 <body>
 ";
 
 // Añadir marcador en el mapa
-$map->addMarker((float) $_GET['lat'],(float) $_GET['lon']);
-$map->addTooltip(LeafletMaphp::MARKER, 0, "{$_GET['lat']},{$_GET['lon']}");
+//$map->addMarker((float) $_GET['lat'],(float) $_GET['lon']);
+//$map->addTooltip(LeafletMaphp::MARKER, 0, "{$_GET['lat']},{$_GET['lon']}");
+$map->marcaConTexto((float) $_GET['lat'],(float) $_GET['lon'], 0, 0, "{$_GET['lat']},{$_GET['lon']}");
 
 $texto = "
     <ul>
@@ -55,7 +56,7 @@ $texto = "
 
 $map->addOnClickText(LeafletMaphp::MARKER, 0, $texto);
 
-echo "<h1>{$nombre}</h1>";
+echo "<h1>{$nombre}-{$localidad}-{$cp}</h1>";
 
 echo $map->show();
 echo $map->showOnClickDiv();
