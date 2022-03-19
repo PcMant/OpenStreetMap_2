@@ -60,9 +60,9 @@ while(!feof($archivo)){
 
         // MArcas y circulos
         if(preg_match('/^R$/', $contenido[1]) == 1){
-            $map->addMarker($cor[0], $cor[1]);
-            if($contenido[3] != '') $map->addPopUp(LeafletMaphp::MARKER, $cm, $contenido[3]);
-            if($contenido[2] != '') $map->addTooltip(LeafletMaphp::MARKER, $cm, $contenido[2]);
+            $map->addMarker((float) $cor[0], (float) $cor[1]);
+            if(!empty($contenido[3])) $map->addPopUp(LeafletMaphp::MARKER, $cm, $contenido[3]);
+            if(!empty($contenido[2])) $map->addTooltip(LeafletMaphp::MARKER, $cm, $contenido[2]);
 
 
             $textoR = "
@@ -74,9 +74,9 @@ while(!feof($archivo)){
 
             $cm++;
         }else{
-            $map->addCircle($cor[0], $cor[1], $color);
-            if($contenido[3] != '') $map->addPopUp(LeafletMaphp::CIRCLE, $cc, $contenido[3]);
-            if($contenido[2] != '') $map->addTooltip(LeafletMaphp::CIRCLE, $cc, "{$contenido[2]}{$altura}");
+            $map->addCircle((float) $cor[0], (float) $cor[1], $color);
+            if(!empty($contenido[3])) $map->addPopUp(LeafletMaphp::CIRCLE, $cc, $contenido[3]);
+            if(!empty($contenido[2])) $map->addTooltip(LeafletMaphp::CIRCLE, $cc, "{$contenido[2]}{$altura}");
 
             $d = array();
             array_push($d,(float) $cor[1]);
@@ -95,10 +95,10 @@ while(!feof($archivo)){
 
 // Añadiendo las linedas que marcan la ruta
 //var_dump($data);
-if(count($data) <= 2){
-    //$map->addPolygon($data,'blue');
+if(count($data) <= 2 && count($data) > 1){
+    $map->addPolygon($data,'blue');
 }else{
-    for($i = 0; $i<count($data)/2; $i++){
+    for($i = 0; $i+1<count($data); $i++){
         $l = array();
         array_push($l,$data[$i]);
         array_push($l,$data[$i+1]);
